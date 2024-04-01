@@ -18,8 +18,10 @@ export default function useAuth() {
         data
       );
       const __user = response.data;
-      setUser(__user);
-      setUserAtom(__user);
+      console.log("Login Response", __user.data);
+      console.log(__user.data);
+      setUser(__user.data);
+      setUserAtom(__user.data);
       localStorage.setItem("user", JSON.stringify(__user));
 
       navigate("/profile");
@@ -42,8 +44,8 @@ export default function useAuth() {
         data
       );
       const __user = response.data;
-      setUser(__user);
-      setUserAtom(__user);
+      setUser(__user.data);
+      setUserAtom(__user.data);
       localStorage.setItem("user", JSON.stringify(__user));
       setLoading(false);
       navigate("/profile");

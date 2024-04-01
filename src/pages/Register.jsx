@@ -5,12 +5,18 @@ import Login_Register_Footer from "../components/Login_Register_Footer";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { useRef } from "react";
 import { UserAtom } from "../store/atoms/atoms";
 import useGoogle from "../hooks/useGoogle";
 import zod from "zod";
 import useAuth from "../hooks/useAuth";
+import { useUpload } from "../hooks/useUpload";
 
 const Register = () => {
+  const [file, setFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
+  const fileRef = useRef(null);
+  const { uploadFile, url, progress, error: errorUpload } = useUpload();
   const setUser = useSetRecoilState(UserAtom);
   const { register, loading, error } = useAuth();
   const Google = useGoogle();
@@ -19,13 +25,17 @@ const Register = () => {
     name: zod.string(),
     password: zod.string().min(5),
     username: zod.string(),
+    DPurl: zod.string(),
   });
   const [formData, setFormData] = useState({
     email: "",
     name: "",
     username: "",
     password: "",
+    DPurl: url||"https://via.placeholder.com/150",
   });
+
+  console.log(url);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +43,11 @@ const Register = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    uploadFile(file);
   };
 
   const handleSubmit = (e) => {
@@ -87,6 +102,49 @@ const Register = () => {
               {/* Form */}
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-2 mt-4 w-full justify-center items-center">
+                  <input
+                    type="file"
+                    // only accept image files
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setFile(file);
+                        setImgUrl(URL.createObjectURL(file));
+                        uploadFile(file);
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        DPurl: url||"https://via.placeholder.com/150",
+                      }));
+                      }
+                    }}
+                    hidden
+                    ref={fileRef}
+                  />
+                  <img
+                    src={imgUrl ? imgUrl : "https://via.placeholder.com/150"}
+                    alt="preview"
+                    className={`h-[100px] w-[100px] object-cover rounded-md`} 
+                  />
+                  <button
+                    gradientDuoTone="purpleToPink"
+                    outline
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fileRef.current.click();
+                    }}
+                  >
+                    Choose Profile Picture
+                  </button>
+                  {
+                    errorUpload && <p className="text-red-500 text-center">{errorUpload}</p>
+
+                  }
+                  
+                  {
+                    progress ? <p className="text-green-500 text-center border border-1 border-green-700 p-2">{progress}%</p> : null
+                  }
+                  
                   <input
                     type="email"
                     name="email"

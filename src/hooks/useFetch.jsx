@@ -17,10 +17,10 @@ const useFetchUser = (id) => {
         id,
       });
       console.log("res:", res.data);
-      setUser(res.data);
+      setUser(res.data.data);
 
       localStorage.setItem("user", JSON.stringify(res.data));
-      setRecoilUser(localStorage.getItem("user"));
+      setRecoilUser(res.data.data);
       console.log("user:", userValue);
       setLoading(false);
     } catch (error) {
