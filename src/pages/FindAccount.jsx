@@ -37,10 +37,10 @@ const FindAccount = () => {
     }
     setEmail(data.email);
     find(data);
-    console.log(data.email);
+  
   };
 
-  console.log(user);
+
   return (
     <div className="h-[100vh] w-[100vw] flex justify-center items-center">
       {!user && (

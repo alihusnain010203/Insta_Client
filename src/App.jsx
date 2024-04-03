@@ -7,35 +7,30 @@ import Wait from "./pages/Wait";
 import { useSetRecoilState } from "recoil";
 import { UserAtom } from "./store/atoms/atoms";
 import FindAccount from "./pages/FindAccount";
+import Footer from "./components/Footer";
 
 function App() {
-  // Implement logic if user not found in local storage then redirect to login page
- const userSet=useSetRecoilState(UserAtom);
-   const user=localStorage.getItem('user');
-  // useEffect(() => {
-  //   const user = localStorage.getItem("user");
-  //   if (!user) {
-  //     navigate("/login");
-  //   }
+  const userSet = useSetRecoilState(UserAtom);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  // }, []);
-
-  useEffect(()=>{
-    if(user){
-      userSet(JSON.parse(user));
+  useEffect(() => {
+    if (user) {
+      userSet(user?.data);
     }
-  },[])
-
+  }, []);
 
   return (
+    <>
     <Routes>
       <Route path="/" element={user ? <Home /> : <Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/wait" element={<Wait />} />
-      <Route path="/find" element={<FindAccount/>}/>
+      <Route path="/find" element={<FindAccount />} />
     </Routes>
+    {/* Add the Footer component if user available */}
+    {user && <Footer />}</>
   );
 }
 

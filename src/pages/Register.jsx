@@ -35,8 +35,6 @@ const Register = () => {
     DPurl: url||"https://via.placeholder.com/150",
   });
 
-  console.log(url);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -101,7 +99,7 @@ const Register = () => {
 
               {/* Form */}
               <form onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-2 mt-4 w-full justify-center items-center">
+                <div className="flex flex-col gap-2 mt-4 w-full justify-center relative items-center">
                   <input
                     type="file"
                     // only accept image files
@@ -126,6 +124,11 @@ const Register = () => {
                     alt="preview"
                     className={`h-[100px] w-[100px] object-cover rounded-md`} 
                   />
+                  <div className="h-[100px] flex justify-center items-center w-[100px] filter bg-[#b4b5b8] opacity-30 absolute top-0">
+                  {
+                    progress ? <p className="text-black rounded-full text-center  border-2 border-black p-2">{progress}%</p> : null
+                  }
+                  </div>
                   <button
                     gradientDuoTone="purpleToPink"
                     outline
@@ -141,9 +144,7 @@ const Register = () => {
 
                   }
                   
-                  {
-                    progress ? <p className="text-green-500 text-center border border-1 border-green-700 p-2">{progress}%</p> : null
-                  }
+                  
                   
                   <input
                     type="email"

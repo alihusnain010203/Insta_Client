@@ -16,17 +16,19 @@ const useFetchUser = (id) => {
       const res = await axios.post("http://localhost:4000/auth/apiv1/getUser", {
         id,
       });
-      console.log("res:", res.data);
+      
       setUser(res.data.data);
 
       localStorage.setItem("user", JSON.stringify(res.data));
       setRecoilUser(res.data.data);
-      console.log("user:", userValue);
+     
       setLoading(false);
     } catch (error) {
       console.error("Error fetching user:", error);
     }
   };
+
+  
 
   useEffect(() => {
     fetchUser(id);

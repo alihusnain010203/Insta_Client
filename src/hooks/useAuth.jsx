@@ -18,13 +18,11 @@ export default function useAuth() {
         data
       );
       const __user = response.data;
-      console.log("Login Response", __user.data);
-      console.log(__user.data);
       setUser(__user.data);
       setUserAtom(__user.data);
       localStorage.setItem("user", JSON.stringify(__user));
 
-      navigate("/profile");
+      navigate("/profile",{state:__user.data});
 
       setLoading(false);
       return user;
@@ -48,7 +46,7 @@ export default function useAuth() {
       setUserAtom(__user.data);
       localStorage.setItem("user", JSON.stringify(__user));
       setLoading(false);
-      navigate("/profile");
+      navigate("/profile",{state:__user.data});
       return user;
     } catch (error) {
       setLoading(false);
@@ -78,7 +76,7 @@ export default function useAuth() {
 
   const getOtp=async(data)=>{
     try {
-     console.log(data,"OTP");
+     (data,"OTP");
       setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/authSimple/apiv1/getotp",

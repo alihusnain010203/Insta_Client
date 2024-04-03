@@ -16,8 +16,9 @@ const Wait = () => {
   //     }
   //   }, [user]);
 
+  console.log(user);
   if (user) {
-    navigate("/profile");
+    navigate("/profile", { state: user });
   }
 
   if (loading) {
